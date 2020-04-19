@@ -15,6 +15,8 @@ namespace Projeto.Presentation
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //habilitar o recurso de MVC para o projeto..
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -25,10 +27,17 @@ namespace Projeto.Presentation
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //habilitar o uso da pasta /wwwroot
+            app.UseStaticFiles();
+
+            //mapear a página inicial do projeto MVC
+            app.UseMvc(
+                routes => {
+                    routes.MapRoute(
+                        name : "default", //caminho de página padrão do sistema
+                        template : "{controller=Home}/{action=Index}"); //ROTA default /Home/Index
+                });
+
         }
     }
 }
