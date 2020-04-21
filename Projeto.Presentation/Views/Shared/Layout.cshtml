@@ -32,12 +32,21 @@
                             Gerenciar Funcionarios
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
+                            <a class="dropdown-item" href="/Funcionario/Cadastro">Cadastrar Novo Funcionário</a>
+                            <a class="dropdown-item" href="/Funcionario/Consulta">Consultar Funcionários</a>
                         </div>
                     </li>
                 </ul>
             </div>
         </nav>
+        <div class="card card-body bg-light">
+            <h2>Sistema de Controle de Funcionarios</h2>
+            Projeto Desenvolvido em .NET CORE MVC com Dapper
+        </div> 
+        <br/>
+        <div>
+            @RenderBody()
+        </div>
     </div>
 
     <!-- arquivos de extensão JS -->
