@@ -4,8 +4,18 @@ using System.Text;
 
 namespace Projeto.Data.Contracts
 {
-    public interface IBaseRepository
+    public interface IBaseRepository<TEntity>
+        where TEntity : class
     {
 
+        void Inserir(TEntity obj);
+
+        void Alterar(TEntity obj);
+
+        void Excluir(TEntity obj);
+
+        List<TEntity> Consultar();
+
+        TEntity ObterPorId(Guid id);
     }
 }
