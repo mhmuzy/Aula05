@@ -33,13 +33,23 @@ namespace Projeto.Presentation.Controlers
                         Nome = model.Nome,
                         Email = model.Email,
                         Salario = Convert.ToDecimal(model.Salario),
-                        DataAdmissao = DateTime.Now
+                        DataAdmissao = DateTime.Now,
+                        Ativo = true,
+                        DataCriacao = DateTime.Now,
+                        DataUltimaAlteracao = DateTime.Now
                     };
+
+                    //gravar na base de dados
+                    funcionarioRepository.Inserir(funcionario);
+
+                    TempData["MensagemSucesso"] = $"Funcionário {model.Nome}, cadastrado com sucesso.";
+
+                    ModelState.Clear(); //limpar os campos do formulário
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
 
-                    throw;
+                    TempData["MensagemErro"] = $"Erro ao cadastrar funionário: {e.Message}.";
                 }
             }
             return View();
