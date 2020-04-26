@@ -22,8 +22,8 @@ namespace Projeto.Data.Repositories
 
         public void Inserir(Funcionario obj)
         {
-            var query = "insert into Funcionario(Nome, Email, DataAdmissao, Salario, Ativo, DataCriacao, DataUltimaAlteracao) "
-                        + "values(@Nome, @Email, GetDate(), @Salario, @Ativo, GetDate(), GetDate()";
+            var query = "insert into Funcionario(IdFuncionario, Nome, Email, DataAdmissao, Salario, Ativo, DataCriacao, DataUltimaAlteracao) "
+                        + "values(@IdFuncionario, @Nome, @Email, @DataAdmissao, @Salario, @Ativo, @DataCriacao, @DataUltimaAlteracao)";
 
             using (var connection = new SqlConnection(connectionString))
             {

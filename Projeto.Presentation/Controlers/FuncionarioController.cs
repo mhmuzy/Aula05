@@ -33,7 +33,7 @@ namespace Projeto.Presentation.Controlers
                         Nome = model.Nome,
                         Email = model.Email,
                         Salario = Convert.ToDecimal(model.Salario),
-                        DataAdmissao = DateTime.Now,
+                        DataAdmissao = Convert.ToDateTime(model.DataAdmissao),
                         Ativo = true,
                         DataCriacao = DateTime.Now,
                         DataUltimaAlteracao = DateTime.Now
@@ -58,6 +58,28 @@ namespace Projeto.Presentation.Controlers
         public IActionResult Consulta()
         {
             return View();
+        }
+
+        [HttpPost] //método para receber os dados enviados
+        //pelo formulário
+        public IActionResult Consulta(FuncionarioConsultaModel model, [FromServices] IFuncionarioRepository funcionarioRepository)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //executando a busca e armazenamento
+                    //o resultado na classe model
+                    model.Funcionarios = funcionarioRepository.Consultar(model.Nome, model.Ativo == 1);
+                }
+                catch (Exception e)
+                {
+
+                    TempData["MensagemErro"] = $"Erro ao consultar funcionário: {e.Message}.";
+                }
+            }
+
+            return View(model);
         }
     }
 }

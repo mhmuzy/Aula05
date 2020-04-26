@@ -57,7 +57,12 @@
             }
             else if (TempData["MensagemErro"] != null)
             {
-                @*<div class=""*@
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>@TempData["MensagemErro"]</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             }
             
             @RenderBody()

@@ -1,4 +1,5 @@
-﻿
+﻿@model Projeto.Presentation.Models.FuncionarioConsultaModel
+
 @{
     ViewData["Title"] = "Consulta";
     Layout = "~/Views/Shared/Layout.cshtml";
@@ -8,3 +9,64 @@
 Relação de funcionários cadastrados no sistema.
 <hr/>
 
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-5">
+            <label>Nome do Funcionário</label>
+            @Html.TextBoxFor(model => model.Nome,
+            new
+            {
+                @class = "form-control",
+                @placeholder = "Digite o nome do funcionário desejado.",
+                @autocomplete = "off"
+            })
+            <spam class="text-danger">
+                @Html.ValidationMessageFor(model => model.Nome)
+            </spam>
+        </div>
+        <div class="col-md-4">
+            <label>Situação do Funcionário:</label> <br />
+            @Html.RadioButtonFor(model => model.Ativo, "1") <spam>Ativos</spam>
+            <br />
+            @Html.RadioButtonFor(model => model.Ativo, "0") <spam>Inativos</spam>
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.Ativo)
+            </span>
+        </div>
+    </div>
+
+    <input type="submit" value="Pesquisar Funcionários" class="btn btn-success btn-sm" />
+
+    <input type="reset" value="Limpar" class="btn btn-secondary btn-sm" />
+}
+
+<br />
+
+@if (Model != null && Model.Funcionarios != null)
+{
+    if (Model.Funcionarios.Count > 0)
+    {
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Nome do Funcionário</th>
+                    <th>Email</th>
+                    <th>Salário</th>
+                    <th>Data de Admissão</th>
+                    <th>Operações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Funcionarios)
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                        <td>@item.Email</td>
+                        <td>@item.Salario</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
