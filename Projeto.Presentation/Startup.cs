@@ -54,7 +54,8 @@ namespace Projeto.Presentation
                 routes => {
                     routes.MapRoute(
                         name : "default", //caminho de página padrão do sistema
-                        template : "{controller=Home}/{action=Index}"); //ROTA default /Home/Index
+                        template : "{controller=Home}/{action=Index}/{id?}"); //ROTA default /Home/Index
+                        //ROTA default /Home/Index
                 });
 
         }

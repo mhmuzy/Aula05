@@ -61,7 +61,7 @@ namespace Projeto.Data.Repositories
 
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Funcionario>(query, new { Nome = $"{nome}", Ativo = ativo }).ToList();
+                return connection.Query<Funcionario>(query, new { Nome = $"%{nome}%", Ativo = ativo }).ToList();
             }
         }
 
@@ -85,5 +85,14 @@ namespace Projeto.Data.Repositories
             }
         }
 
+        public void Reativar(Guid idFuncionario)
+        {
+            var query = "update Funcionario set Ativo = 1 where IdFuncionario = @IdFuncionario";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Execute(query, new { idFuncionario });
+            }    
+        }
     }
 }

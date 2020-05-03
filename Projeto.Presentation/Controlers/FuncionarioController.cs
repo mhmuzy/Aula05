@@ -81,5 +81,80 @@ namespace Projeto.Presentation.Controlers
 
             return View(model);
         }
+
+        //método para excluir o funcionário
+        public IActionResult Exclusao(string id, [FromServices] IFuncionarioRepository funcionarioRepository)
+        {
+            try
+            {
+                //converter o valor do id de string para Guid
+                var idFuncionario = Guid.Parse(id);
+
+                //buscar o funcionario pelo id..
+                var funcionario = funcionarioRepository.ObterPorId(idFuncionario);
+
+                //excluindo o funcionário
+                funcionarioRepository.Excluir(funcionario);
+
+                TempData["MensagemSucesso"] = $"funcionário {funcionario.Nome}, excluído com sucesso.";
+            }
+            catch (Exception e)
+            {
+
+                TempData["MensagemErro"] = e.Message;
+            }
+
+            return RedirectToAction("Consulta");
+        }
+
+        //método para reativar o funcionário
+        public IActionResult Reativar(string id, [FromServices] IFuncionarioRepository funcionarioRepository)
+        {
+            try
+            {
+                //converter o valor do id de string para Guid
+                var idFuncionario = Guid.Parse(id);
+
+                //reativando o funcionário
+                funcionarioRepository.Reativar(idFuncionario);
+
+                TempData["MensagemSucesso"] = "Funcionário reativado com sucesso.";
+            }
+            catch (Exception e)
+            {
+
+                TempData["MensagemErro"] = e.Message;
+            }
+
+            return RedirectToAction("Consulta");
+        }
+
+        //método para abrir a página de edição..
+        public IActionResult Edicao(string id, [FromServices] IFuncionarioRepository funcionarioRepository)
+        {
+            //criando um objeto da classe model de edição..
+            var model = new FuncionarioEdicaoModel();
+
+            try
+            {
+                //buscando o funcionário no banco de dados através do id..
+                var funcionario = funcionarioRepository.ObterPorId(Guid.Parse(id));
+
+                //carregando  os dados do funcionario na model
+                model.IdFuncionario = funcionario.IdFuncionario.ToString();
+                model.Nome = funcionario.Nome;
+                model.Email = funcionario.Email;
+                model.Salario = funcionario.Salario;
+                model.DataAdmissao = funcionario.DataAdmissao;
+            }
+            catch (Exception e)
+            {
+
+                TempData["MensagemErro"] = e.Message;
+            }
+
+            //enviando a model para a página
+            return View(model);
+        }
     }
 }

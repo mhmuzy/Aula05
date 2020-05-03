@@ -5,6 +5,54 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
+@section styles{ 
+    <link href="~/css/jquery-dataTables.min.css" rel="stylesheet" />
+}
+
+@section scripts{ 
+    <script src="~/js/jquery-dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tabela_funcionarios').DataTable({
+                "ordering": true,
+                "pageLength": 5,
+                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+                "searching": false,
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Filtrar registros",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma decrescente"
+                    },
+                    "select": {
+                        "rows": {
+                            "_": "Selecionando %d linhas",
+                            "0": "Nenhuma linha selecionada",
+                            "1": "Selecionado 1 linha"
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
+
 <h4>Consulta de Funcionários</h4>
 Relação de funcionários cadastrados no sistema.
 <hr/>
@@ -47,7 +95,7 @@ Relação de funcionários cadastrados no sistema.
 {
     if (Model.Funcionarios.Count > 0)
     {
-        <table class="table table-hover table-bordered table-striped">
+        <table id="tabela_funcionarios" class="table table-hover table-bordered table-striped">
             <thead>
                 <tr>
                     <th>Nome do Funcionário</th>
@@ -66,11 +114,18 @@ Relação de funcionários cadastrados no sistema.
                         <td>@item.Salario.ToString("c")</td>
                         <td>@item.DataAdmissao.ToString("dd/MM/yyyy")</td>
                         <td>
-                            <a href="#" class="btn btn-primary btn-sm">Atualizar</a>
-                            <a href="#" class="btn btn-danger btn-sm">Excluir</a>
+                            @if (item.Ativo)
+                            {
+                                <a href="/Funcionario/Edicao?id=@item.IdFuncionario" class="btn btn-primary btn-sm">Atualizar</a>
+                                <a href="/Funcionario/Exclusao?id=@item.IdFuncionario" onclick="return confirm('Deseja excluir o funcionário @item.Nome ?')" class="btn btn-danger btn-sm">Excluir</a>
+                            }
+                            else
+	                        {
+	                            <a href="/Funcionario/Reativar/@item.IdFuncionario" onclick="return confirm('Deseja reativar o funcionário @item.Nome ?')" class="btn btn-info btn-sm">Reativar Funcionário</a>
+                        	}   
                         </td>
                     </tr>
-                }
+                            }
             </tbody>
             <tfoot>
                 <tr>

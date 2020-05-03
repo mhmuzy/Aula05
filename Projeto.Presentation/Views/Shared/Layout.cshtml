@@ -11,7 +11,7 @@
 
     <!-- folha de estilos CSS -->
     <link href="~/css/bootstrap.css" rel="stylesheet" />
-
+    @RenderSection("styles", required : false)
 </head>
 <body>
 
@@ -72,6 +72,6 @@
     <!-- arquivos de extensão JS -->
     <script src="~/js/jquery-3.4.1.min.js"></script>
     <script src="~/js/bootstrap.js"></script>
-
+    @RenderSection("scripts", required: false)
 </body>
 </html>
