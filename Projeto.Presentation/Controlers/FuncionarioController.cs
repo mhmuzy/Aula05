@@ -156,5 +156,41 @@ namespace Projeto.Presentation.Controlers
             //enviando a model para a página
             return View(model);
         }
+
+        [HttpPost] //método recebe o submit post enviado pelo formulário
+        public IActionResult Edicao(FuncionarioEdicaoModel model, [FromServices] IFuncionarioRepository funcionarioRepository)
+        {
+            //verificar se os campos do formulário estão corretos
+            //em relação às regras de validação (DataAnnotations)
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //capturar os dados da model
+                    //e instanciar um objeto Funcionario..
+                    var funcionario = new Funcionario //classe de entidade
+                    {
+                        IdFuncionario = Guid.Parse(model.IdFuncionario),
+                        Nome = model.Nome,
+                        Email = model.Email,
+                        Salario = Convert.ToDecimal(model.Salario),
+                        DataAdmissao = Convert.ToDateTime(model.DataAdmissao),
+                        DataUltimaAlteracao = DateTime.Now
+                    };
+
+                    //gravar na base de dados
+                    funcionarioRepository.Alterar(funcionario);
+                    TempData["MensagemSucesso"] = $"Funcionário {model.Nome}, atualizado com sucesso.";
+                }
+                catch (Exception e)
+                {
+
+                    TempData["MensagemErro"] = $"Erro ao atualizar funcionário: {e.Message}";
+                }
+            }
+
+            //retornando para a página
+            return View(model);
+        }
     }
 }

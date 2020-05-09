@@ -36,8 +36,9 @@ namespace Projeto.Data.Repositories
             var query = "update Funcionario set "
                             + "Nome = @Nome, "
                             + "Email = @Email, "
-                            + "DataAdmisao = @DataAdmissao, "
-                            + "DataUltimaAlteracao = GetDate() "
+                            + "DataAdmissao = @DataAdmissao, "
+                            + "DataUltimaAlteracao = GetDate(), "
+                            + "Salario = @Salario "
                       + "where IdFuncionario = @IdFuncionario";
             using (var connection = new SqlConnection(connectionString))
             {
