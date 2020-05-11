@@ -11,7 +11,7 @@ namespace Projeto.Data.Entities
 
         #region Relacionamentos
 
-        //public List<Usuario> Usuarios { get; set; }
+        public List<Usuario> Usuarios { get; set; }
 
         #endregion
     }
