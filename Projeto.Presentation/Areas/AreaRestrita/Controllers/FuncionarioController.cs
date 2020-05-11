@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projeto.Data.Contracts;
 using Projeto.Data.Entities;
 using Projeto.Presentation.Models; //camada de modelo
 
 namespace Projeto.Presentation.Controlers
-{   
+{
+    [Authorize]
     [Area("AreaRestrita")]
     public class FuncionarioController : Controller
     {
