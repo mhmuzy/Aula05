@@ -54,37 +54,80 @@ namespace Projeto.Data.Repositories
 
         public List<Usuario> Consultar()
         {
-            var query = "select * from Usuario";
+            var query = "select * from Usuario u inner join Perfil p "
+                        + "on p.IdPerfil = u.IdPerfil";
 
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Usuario>(query).ToList();
+                return connection.Query(query,
+                    (Usuario u, Perfil p) =>
+                    {
+                        u.Perfil = p;
+                        return u;
+                    },
+                    splitOn: "IdPerfil")
+                    .ToList();
             }
         }
 
         public Usuario Consultar(string email)
         {
-            var query = "select * from Usuario where Email = @Email";
+            var query = "select * from Usuario u inner join Perfil p "
+                      + "on p.IdPerfil = u.IdPerfil "
+                      + "where Email = @Email";
 
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Usuario>(query, new { Email = email }).FirstOrDefault();
+                return connection.Query(query,
+                    (Usuario u, Perfil p) =>
+                    {
+                        u.Perfil = p;
+                        return u;
+                    },
+                    new { Email = email },
+                    splitOn: "IdPerfil")
+                    .FirstOrDefault();
             }
         }
 
         public Usuario Consultar(string email, string senha)
         {
-            var query = "select * from Usuario where Email = @Email and Senha = @Senha";
+            var query = "select * from Usuario u inner join Perfil p "
+                       + "on p.IdPerfil = u.IdPerfil "
+                       + "where Email = @Email and Senha = @Senha";
 
             using (var connection = new SqlConnection(connectionString))
             {
-                return connection.Query<Usuario>(query, new { Email = email, Senha = senha }).FirstOrDefault();
+                return connection.Query(query,
+                    (Usuario u, Perfil p) =>
+                    {
+                        u.Perfil = p;
+                        return u;
+                    },
+                    new { Email = email, Senha = senha },
+                    splitOn: "IdPerfil")
+                    .FirstOrDefault();
             }
         }
 
         public Usuario ObterPorId(Guid id)
         {
-            throw new NotImplementedException();
+            var query = "select * from Usuario u inner join Perfil p "
+                      + "on p.IdPerfil = u.IdPerfil "
+                      + "where IdUsuario = @IdUsuario";
+
+            using (var connection =  new SqlConnection(connectionString))
+            {
+                return connection.Query(query,
+                    (Usuario u, Perfil p) =>
+                    {
+                        u.Perfil = p;
+                        return u;
+                    },
+                    new { IdUsuario = id },
+                    splitOn: "IdPerfil")
+                    .FirstOrDefault();
+            }
         }
     }
 }

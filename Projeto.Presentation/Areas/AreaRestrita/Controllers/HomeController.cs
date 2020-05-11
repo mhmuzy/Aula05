@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Projeto.Presentation.Controlers
 {
+    [Area("AreaRestrita")]
     public class HomeController : Controller
     {
         //IActionResult -> métodos que realizam ações em páginas

@@ -8,7 +8,8 @@ using Projeto.Data.Entities;
 using Projeto.Presentation.Models; //camada de modelo
 
 namespace Projeto.Presentation.Controlers
-{
+{   
+    [Area("AreaRestrita")]
     public class FuncionarioController : Controller
     {
         public IActionResult Cadastro()
