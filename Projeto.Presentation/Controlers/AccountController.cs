@@ -17,39 +17,46 @@ namespace Projeto.Presentation.Controlers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Login(LoginModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            if (model.Email.Equals("sergio.coti@gmail.com") && model.Senha.Equals("123456")) //provisório
-        //            {
-        //                //criando a identificação de acesso..
-        //                var identity = new ClaimsIdentity(
-        //                    new []
-        //                    {
-        //                        new Claim(ClaimTypes.Name, model.Email),
-        //                        //nome de usuário
-        //                        new Claim(ClaimTypes.Role, "ADMINISTRADOR")
-        //                        //perfil
-        //                    },
-        //                    CookieAuthenticationDefaults.AuthenticationScheme);
+        [HttpPost]
+        public IActionResult Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (model.Email.Equals("sergio.coti@gmail.com") && model.Senha.Equals("123456")) //provisório
+                    {
+                        //criando a identificação de acesso..
+                        var identity = new ClaimsIdentity(
+                            new[]
+                            {
+                                new Claim(ClaimTypes.Name, model.Email),
+                                //nome de usuário
+                                new Claim(ClaimTypes.Role, "ADMINISTRADOR")
+                                //perfil
+                            },
+                            CookieAuthenticationDefaults.AuthenticationScheme);
 
-        //                //gravar em cookie
-        //                var principal = new ClaimsPrincipal(identity);
-        //                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-        //            }
-        //        }
-        //        catch (Exception)
-        //        {
+                        //gravar em cookie
+                        var principal = new ClaimsPrincipal(identity);
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-        //            throw;
-        //        }
+                        return RedirectToAction("Index", "Home", new { area = "AreaRestrita" });
+                    }
+                    else
+                    {
+                        throw new Exception("Acesso Negado.");
+                    }
+                }
+                catch (Exception e)
+                {
 
-                
-        //    }
-        //}
+                    TempData["MensagemErro"] = e.Message;
+                }
+
+
+            }
+            return View();
+        }
     }
 }
